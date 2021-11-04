@@ -52,8 +52,7 @@ static bool help_cmd(CLI *cli, const char *args) {
       cli->printf("  %-8s     %s\n", p->_name, p->_explain ? p->_explain : "");
   else
     cli->printf(" no command registered\n");
-  cli->printf("\n");
-  return true;
+  return cli->printf("\n");
 }
 
 static bool set_cmd(CLI *cli, const char *args) {
