@@ -72,6 +72,7 @@ class CLI {
   _Param_int *m_param_int_list;
   int m_ri;
   char m_rxbuf[80];
+  const char *m_cmd;
 
  public:
   CLI();

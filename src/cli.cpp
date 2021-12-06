@@ -10,7 +10,7 @@ bool get_int(const char *str, int *pVal, const char **pNext) {
   int val = 0;
 
   while (isspace(*p)) p++;
-  if(*p == '-') {
+  if (*p == '-') {
     sgn = -1;
     p++;
   }
@@ -159,6 +159,7 @@ void CLI::update(void) {
         if (get_word(m_rxbuf, name, sizeof name, &arg)) {
           _Cmd *cmd;
           if (cmd_find(name, &cmd)) {
+            m_cmd = name;
             cmd->_func(this, arg);
           } else {
             this->printf("command \"%s\" not defined\n", name);
