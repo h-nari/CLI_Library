@@ -90,6 +90,7 @@ CLI::CLI() {
   m_cmd_list = NULL;
   m_param_int_list = NULL;
   m_ri = 0;
+  m_bEcho = true;
   cmd("help", "show cmd list", help_cmd);
   cmd("h", "show cmd list", help_cmd);
   cmd("set", "show/set parameters", set_cmd);
@@ -133,29 +134,28 @@ bool CLI::error(const char *fmt, ...) {
 
 void CLI::init(Stream *serial) {
   this->m_serial = serial;
-  this->printf("\nReady\n$ ");
+  if (this->m_serial) this->printf("\nReady\n$ ");
 }
 
 void CLI::update(void) {
   if (m_serial && m_serial->available()) {
     if (m_ri < sizeof(m_rxbuf) - 1) {
       int c = m_serial->read();
-      // log_i("c:0x%02x", c);
       if (c == '\b') {
         if (m_ri > 0) {
           m_ri--;
-          this->printf("\b \b");
+          if (m_bEcho) this->printf("\b \b");
         }
-      } else if (c == '\n') {
+      } else if (c == '\n' || c == 0) {
         /* do nothing */
       } else if (c != '\r') {
         m_rxbuf[m_ri++] = c;
-        this->printf("%c", c);
+        if (m_bEcho) this->printf("%c", c);
       } else {
         char name[16];
         const char *arg;
         m_rxbuf[m_ri] = 0;
-        this->printf("\n");
+        if (m_bEcho) this->printf("\n");
         if (get_word(m_rxbuf, name, sizeof name, &arg)) {
           _Cmd *cmd;
           if (cmd_find(name, &cmd)) {

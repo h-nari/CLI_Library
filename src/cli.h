@@ -73,6 +73,7 @@ class CLI {
   int m_ri;
   char m_rxbuf[80];
   const char *m_cmd;
+  bool m_bEcho;
 
  public:
   CLI();
@@ -88,6 +89,7 @@ class CLI {
   bool cmd_find(const char *name, _Cmd **pCmd) {
     return _NameList::find(m_cmd_list, name, (_NameList **)pCmd);
   }
+  void setEcho(bool b) { m_bEcho = b; }
 };
 
 bool get_int(const char *str, int *pVal, const char **pNext);
