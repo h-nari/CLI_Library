@@ -74,6 +74,7 @@ class CLI {
   char m_rxbuf[80];
   const char *m_cmd;
   bool m_bEcho;
+  long m_userData;
 
  public:
   CLI();

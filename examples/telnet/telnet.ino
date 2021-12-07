@@ -11,17 +11,19 @@
 
 #define MAX_SRV_CLIENTS 2
 
-const char *ssid="aterm-3bed0b-g";
-const char *password="uch4pt5u";
+const char *ssid = "**********";
+const char *password = "************";
 
 static WiFiServer server(23);
 static WiFiClient serverClients[MAX_SRV_CLIENTS];
 static CLI cli[MAX_SRV_CLIENTS];
 
 void setup(void) {
-  WiFi.mode(WIFI_AP);
-  WiFi.begin( ssid, password);
-  while(WiFi.status() != WL_CONNECTED){
+  Serial.begin(115200);
+  delay(100);
+  Serial.println("\nReset.");
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print('.');
   }
@@ -31,6 +33,16 @@ void setup(void) {
   server.setNoDelay(true);
 
   for (int i = 0; i < MAX_SRV_CLIENTS; i++) {
+    cli[i].cmd("hello", "hello command", [](CLI *cli, const char *args) {
+      return cli->printf("Hello cmd:%s args:%s\n", cli->m_cmd, args);
+    });
+    cli[i].m_userData = i;
+    cli[i].cmd("close", "close connection", [](CLI *cli, const char *args) {
+      cli->printf("close connection\n");
+      serverClients[cli->m_userData].stop();
+      cli->init(NULL);
+      return true;
+    });
     cli[i].setEcho(false);
   }
 }
