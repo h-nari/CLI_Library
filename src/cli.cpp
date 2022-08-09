@@ -30,7 +30,7 @@ bool get_int(const char *str, int *pVal, const char **pNext) {
 
 bool get_word(const char *str, char *buf, size_t bufLen, const char **pNext) {
   const char *p = str;
-  int i = 0;
+  size_t i = 0;
   while (isspace(*p)) p++;
   if (*p) {
     while (*p && !isspace(*p) && i < bufLen - 1) buf[i++] = *p++;

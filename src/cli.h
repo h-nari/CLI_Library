@@ -70,7 +70,7 @@ class CLI {
   Stream *m_serial;
   _Cmd *m_cmd_list;
   _Param_int *m_param_int_list;
-  int m_ri;
+  size_t m_ri;
   char m_rxbuf[80];
   const char *m_cmd;
   bool m_bEcho;
