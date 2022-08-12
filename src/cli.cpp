@@ -28,6 +28,27 @@ bool get_int(const char *str, int *pVal, const char **pNext) {
   }
 };
 
+bool get_hex(const char *str, int *pVal, const char **pNext) {
+  const char *p = str;
+  int val = 0;
+
+  while (isspace(*p)) p++;
+  char c = *p;
+  if (isxdigit(c)) {
+    while (isxdigit(c)) {
+      int v = isdigit(c) ? c - '0' : isupper(c) ? c - 'A' + 10 : c - 'a' + 10;
+      val = val * 16 + v;
+      c = *++p;
+    }
+    if (pVal) *pVal = val;
+    if (pNext) *pNext = p;
+    return true;
+  } else {
+    if (pNext) *pNext = p;
+    return false;
+  }
+};
+
 bool get_word(const char *str, char *buf, size_t bufLen, const char **pNext) {
   const char *p = str;
   size_t i = 0;

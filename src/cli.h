@@ -94,6 +94,7 @@ class CLI {
 };
 
 bool get_int(const char *str, int *pVal, const char **pNext);
+bool get_hex(const char *str, int *pVal, const char **pNext);
 bool get_word(const char *str, char *buf, size_t bufLen, const char **pNext);
 
 #endif /* _cli_h_ */
